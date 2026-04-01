@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EasyShare.Application.Common.Interfaces;
 using EasyShare.Domain.Entities;
 using EasyShare.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyShare.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
