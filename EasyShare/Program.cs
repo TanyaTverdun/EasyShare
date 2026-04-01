@@ -1,3 +1,4 @@
+using EasyShare.Application;
 using EasyShare.Application.Common.Interfaces.Services;
 using EasyShare.Infrastructure.Persistence;
 using EasyShare.Infrastructure.Services;
@@ -13,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
+builder.Services.AddApplicationServices();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
