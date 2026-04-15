@@ -8,6 +8,13 @@ public class ItemAttributeValueConfiguration : IEntityTypeConfiguration<ItemAttr
 {
     public void Configure(EntityTypeBuilder<ItemAttributeValue> builder)
     {
+        builder.
+            HasIndex(i => new
+            {
+                i.AttributeId,
+                i.Value
+            });
+
         builder
             .HasKey(it => new
             {

@@ -9,6 +9,10 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
     public void Configure(EntityTypeBuilder<Item> builder)
     {
         builder
+            .HasIndex(i => i.LocationId)
+            .HasFilter("is_active = true");
+
+        builder
             .ToTable("items");
 
         builder

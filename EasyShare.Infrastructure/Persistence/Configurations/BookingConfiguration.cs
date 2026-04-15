@@ -8,6 +8,21 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
 {
     public void Configure(EntityTypeBuilder<Booking> builder)
     {
+        builder.
+            HasIndex(i => new
+            {
+                i.ItemId,
+                i.StartDatetime,
+                i.EndDatetime
+            });
+
+        builder.
+            HasIndex(i => new
+            {
+                i.UserId,
+                i.CreatedAt
+            });
+
         builder
             .ToTable("bookings");
 
