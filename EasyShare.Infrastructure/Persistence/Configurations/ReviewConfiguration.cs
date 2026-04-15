@@ -23,6 +23,11 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
             .HasColumnName("rating")
             .IsRequired();
 
+        builder.ToTable("reviews", t => t.HasCheckConstraint(
+            name: "CK_Reviews_Rating",
+            sql: "rating >= 1 AND rating <= 5"
+        ));
+
         builder
             .Property(r => r.Comment)
             .HasColumnName("comment")
