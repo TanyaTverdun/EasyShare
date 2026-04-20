@@ -26,6 +26,8 @@ namespace EasyShare.Infrastructure.Persistence
         public DbSet<Booking> Bookings => Set<Booking>();
         public DbSet<Review> Reviews => Set<Review>();
 
+        public DbSet<ItemCatalogView> ItemCatalog { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
