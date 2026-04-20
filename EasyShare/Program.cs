@@ -1,5 +1,7 @@
 using EasyShare.Application;
+using EasyShare.Application.Common.Interfaces;
 using EasyShare.Application.Common.Interfaces.Services;
+using EasyShare.Infrastructure;
 using EasyShare.Infrastructure.Persistence;
 using EasyShare.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-
 builder.Services.AddApplicationServices();
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
