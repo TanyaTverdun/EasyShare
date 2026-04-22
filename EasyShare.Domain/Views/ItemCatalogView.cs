@@ -7,6 +7,7 @@ public record ItemCatalogView
     public string Description { get; init; }
     public decimal Price { get; init; }
     public string ImageUrl { get; init; }
+    public int TypeId { get; set; }
     public string TypeName { get; init; }
     public string CompanyName { get; init; }
     public string LocationAddress { get; init; }
