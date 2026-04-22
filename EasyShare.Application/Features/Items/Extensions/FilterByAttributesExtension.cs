@@ -15,17 +15,32 @@ public static class FilterByAttributesExtension
             return query;
         }
 
-        foreach (var attribute in attributes)
-        {
-            int attrId = attribute.Key;
-            List<string> attrValues = attribute.Value;
+        var attrIds = attributes.Keys.ToList();
+        var attrToType = context.Attributes
+            .Where(a => attrIds.Contains(a.Id))
+            .Select(a => new { a.Id, a.TypeId })
+            .ToList()
+            .ToDictionary(a => a.Id, a => a.TypeId);
 
-            if (attrValues.Any())
+        var attrsByType = attributes
+            .GroupBy(kvp => attrToType.ContainsKey(kvp.Key) ? attrToType[kvp.Key] : -1)
+            .ToList();
+
+        foreach (var typeGroup in attrsByType)
+        {
+            var typeId = typeGroup.Key;
+
+            foreach (var attr in typeGroup)
             {
-                query = query.Where(catalogItem => context.ItemAttributeValues
-                    .Any(iav => iav.ItemId == catalogItem.ItemId
-                             && iav.AttributeId == attrId
-                             && attrValues.Contains(iav.Value)));
+                var attrId = attr.Key;
+                var attrValues = attr.Value;
+
+                query = query.Where(catalogItem =>
+                    catalogItem.TypeId != typeId ||
+                    context.ItemAttributeValues.Any(iav =>
+                        iav.ItemId == catalogItem.ItemId &&
+                        iav.AttributeId == attrId &&
+                        attrValues.Contains(iav.Value)));
             }
         }
 
