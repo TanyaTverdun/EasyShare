@@ -11,7 +11,8 @@ namespace EasyShare.Infrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"
-                CREATE OR REPLACE VIEW vw_item_catalog AS
+                DROP VIEW IF EXISTS vw_item_catalog;
+                CREATE VIEW vw_item_catalog AS
         
                 WITH ItemRatings AS (
                     SELECT 
@@ -38,7 +39,7 @@ namespace EasyShare.Infrastructure.Persistence.Migrations
                 FROM items i
                 JOIN item_types it ON i.type_id = it.type_id
                 JOIN companies c ON i.company_id = c.company_id
-                JOIN location loc ON i.location_id = loc.location_id
+                JOIN locations loc ON i.location_id = loc.location_id
                 LEFT JOIN ItemRatings ir ON i.item_id = ir.item_id
                 WHERE i.is_active = true;
             ");
@@ -48,7 +49,8 @@ namespace EasyShare.Infrastructure.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"
-                CREATE OR REPLACE VIEW vw_item_catalog AS
+                DROP VIEW IF EXISTS vw_item_catalog;
+                CREATE VIEW vw_item_catalog AS
         
                 WITH ItemRatings AS (
                     SELECT 
@@ -74,7 +76,7 @@ namespace EasyShare.Infrastructure.Persistence.Migrations
                 FROM items i
                 JOIN item_types it ON i.type_id = it.type_id
                 JOIN companies c ON i.company_id = c.company_id
-                JOIN location loc ON i.location_id = loc.location_id
+                JOIN locations loc ON i.location_id = loc.location_id
                 LEFT JOIN ItemRatings ir ON i.item_id = ir.item_id
                 WHERE i.is_active = true;
             ");
