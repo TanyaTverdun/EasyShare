@@ -23,7 +23,6 @@ namespace EasyShare.Infrastructure.Persistence.Migrations
                     GROUP BY b.item_id
                 )
 
-                -- Основний запит: збираємо картку товару
                 SELECT 
                     i.item_id,
                     i.name,
