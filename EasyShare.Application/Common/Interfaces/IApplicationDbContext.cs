@@ -16,5 +16,7 @@ public interface IApplicationDbContext
     DbSet<Booking> Bookings { get; }
     DbSet<Review> Reviews { get; }
 
+    DbSet<ItemCatalogView> ItemCatalog { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
