@@ -1,5 +1,6 @@
 ﻿using EasyShare.Application.Features.Attributes.Queries.GetAttributesByType;
 using EasyShare.Application.Features.Categories.Queries.GetActiveCategories;
+using EasyShare.Application.Features.Items.Queries.GetCatalogItems;
 using EasyShare.Application.Features.ItemTypes.Queries.GetTypesByCategory;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,9 @@ public class CatalogController : ControllerBase
         CancellationToken cancellationToken)
     {
         var query = new GetActiveCategoriesQuery();
-        var result = await this._mediator.Send(query, cancellationToken);
+        var result = await this._mediator.Send(
+            query, 
+            cancellationToken);
 
         return Ok(result);
     }
@@ -39,7 +42,9 @@ public class CatalogController : ControllerBase
             CategoryIds = categoryIds
         };
 
-        var result = await this._mediator.Send(query, cancellationToken);
+        var result = await this._mediator.Send(
+            query, 
+            cancellationToken);
 
         return Ok(result);
     }
@@ -55,7 +60,22 @@ public class CatalogController : ControllerBase
             TypeIds = typeIds 
         };
 
-        var result = await this._mediator.Send(query, cancellationToken);
+        var result = await this._mediator.Send(
+            query, 
+            cancellationToken);
+
+        return Ok(result);
+    }
+
+    // GET: api/catalog/items
+    [HttpGet("items")]
+    public async Task<ActionResult<List<CatalogItemDto>>> GetCatalogItems(
+        [FromQuery] GetCatalogItemsQuery query,
+        CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(
+            query, 
+            cancellationToken);
 
         return Ok(result);
     }
