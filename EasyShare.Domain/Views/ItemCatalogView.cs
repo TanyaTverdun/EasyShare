@@ -14,6 +14,7 @@ public record ItemCatalogView
     public string City { get; set; }
     public string Street { get; set; }
     public int Building { get; set; }
+    public int StockQuantity { get; init; }
     public double AverageRating { get; init; }
     public int ReviewsCount { get; init; }
 }
