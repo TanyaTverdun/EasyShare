@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middlewares\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EasyShare.Application\EasyShare.Application.csproj" />
     <ProjectReference Include="..\EasyShare.Infrastructure\EasyShare.Infrastructure.csproj" />
   </ItemGroup>

@@ -4,6 +4,7 @@ using EasyShare.Application.Common.Interfaces.Services;
 using EasyShare.Infrastructure;
 using EasyShare.Infrastructure.Persistence;
 using EasyShare.Infrastructure.Services;
+using EasyShare.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,8 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseCors("AllowReactApp");
 
