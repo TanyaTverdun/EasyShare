@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EasyShare.Application.Common.Interfaces;
+﻿using EasyShare.Application.Common.Interfaces;
 using EasyShare.Domain.Entities;
 using EasyShare.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -31,13 +28,20 @@ namespace EasyShare.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasPostgresEnum<BookingStatus>("booking_status");
-
-            modelBuilder
-                .HasPostgresEnum<BillingPeriod>("billing_period");
-
-            modelBuilder
                 .ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        }
+
+        public async Task ExecuteCreateBookingProcedureAsync(
+            int userId, 
+            int itemId, 
+            int quantity, 
+            DateTime startDate, 
+            DateTime endDate, 
+            CancellationToken cancellationToken)
+        {
+            await Database.ExecuteSqlInterpolatedAsync(
+                $"CALL sp_create_booking_safe({userId}, {itemId}, {quantity}, {startDate}, {endDate})",
+                cancellationToken);
         }
     }
 }

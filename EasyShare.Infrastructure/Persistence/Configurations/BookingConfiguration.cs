@@ -60,6 +60,7 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
         builder
             .Property(b => b.Status)
             .HasColumnName("status")
+            .HasConversion<string>()
             .IsRequired();
 
         builder

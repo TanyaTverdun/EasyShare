@@ -47,6 +47,7 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
         builder
             .Property(i => i.BillingPeriod)
             .HasColumnName("billing_period")
+            .HasConversion<string>()
             .IsRequired();
 
         builder
