@@ -1,5 +1,4 @@
 ﻿using EasyShare.Application.Common.Exceptions;
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace EasyShare.Middlewares;
@@ -32,7 +31,7 @@ public class ExceptionHandlingMiddleware
     {
         var (statusCode, response) = exception switch
         {
-            ValidationException ve => (
+            FluentValidation.ValidationException ve => (
                 StatusCodes.Status400BadRequest,
                 (object)new
                 {
@@ -40,6 +39,21 @@ public class ExceptionHandlingMiddleware
                     Status = StatusCodes.Status400BadRequest,
                     Detail = "Одне або кілька полів не пройшли перевірку.",
                     Errors = ve.Errors
+                        .GroupBy(e => e.PropertyName)
+                        .ToDictionary(
+                            g => g.Key,
+                            g => g.Select(e => e.ErrorMessage).ToArray()
+                        )
+                }
+            ),
+
+            NotFoundException nfe => (
+                StatusCodes.Status404NotFound,
+                (object)new
+                {
+                    Title = "Не знайдено",
+                    Status = StatusCodes.Status404NotFound,
+                    Detail = nfe.Message
                 }
             ),
 
