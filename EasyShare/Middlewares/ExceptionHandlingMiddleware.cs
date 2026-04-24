@@ -57,6 +57,26 @@ public class ExceptionHandlingMiddleware
                 }
             ),
 
+            ConflictException ce => (
+                StatusCodes.Status409Conflict,
+                (object)new
+                {
+                    Title = "Конфлікт даних",
+                    Status = StatusCodes.Status409Conflict,
+                    Detail = ce.Message
+                }
+            ),
+
+            UnauthorizedException ue => (
+                StatusCodes.Status401Unauthorized,
+                (object)new
+                {
+                    Title = "Помилка авторизації",
+                    Status = StatusCodes.Status401Unauthorized,
+                    Detail = ue.Message
+                }
+            ),
+
             _ => (
                 StatusCodes.Status500InternalServerError,
                 (object)new
