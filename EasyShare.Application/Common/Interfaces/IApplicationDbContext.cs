@@ -19,4 +19,11 @@ public interface IApplicationDbContext
     DbSet<ItemCatalogView> ItemCatalog { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task ExecuteCreateBookingProcedureAsync(
+        int userId, 
+        int itemId, 
+        int quantity, 
+        DateTime startDate, 
+        DateTime endDate, 
+        CancellationToken cancellationToken);
 }
