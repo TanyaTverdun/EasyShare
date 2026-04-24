@@ -17,4 +17,5 @@ public record ItemCatalogView
     public int StockQuantity { get; init; }
     public double AverageRating { get; init; }
     public int ReviewsCount { get; init; }
+    public bool IsActive { get; init; }
 }
