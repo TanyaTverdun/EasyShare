@@ -1,6 +1,7 @@
-﻿using EasyShare.Application.Common.Mappings;
+﻿using EasyShare.Application.Common.Behaviors;
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace EasyShare.Application
 {
@@ -9,9 +10,12 @@ namespace EasyShare.Application
         public static IServiceCollection AddApplicationServices(
             this IServiceCollection services)
         {
+            services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
+
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             });
 
             services.AddAutoMapper(cfg =>
