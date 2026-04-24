@@ -55,7 +55,8 @@ namespace EasyShare.Infrastructure.Persistence.Configurations
 
             builder
                 .Property(u => u.LocationId)
-                .HasColumnName("location_id");
+                .HasColumnName("location_id")
+                .IsRequired(false);
 
             builder
                 .HasOne(u => u.Location)

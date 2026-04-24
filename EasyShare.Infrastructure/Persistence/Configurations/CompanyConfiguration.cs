@@ -44,7 +44,8 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 
         builder
             .Property(c => c.LocationId)
-            .HasColumnName("location_id");
+            .HasColumnName("location_id")
+            .IsRequired(false);
 
         builder.HasOne(c => c.Location)
                .WithMany(l => l.Companies)

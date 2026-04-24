@@ -8,8 +8,19 @@ public class Company
     public string Phone { get; set; } = string.Empty;
     public string PasswordHash { get; set; } = string.Empty;
 
-    public int LocationId { get; set; }
-    public Location Location { get; set; } = null!;
+    public int? LocationId { get; set; }
+    public Location? Location { get; set; } = null!;
 
     public ICollection<Item> Items { get; set; } = new List<Item>();
+
+    public static Company Create(string name, string email, string phone, string passwordHash)
+    {
+        return new Company
+        {
+            Name = name,
+            Email = email,
+            Phone = phone,
+            PasswordHash = passwordHash
+        };
+    }
 }
