@@ -26,6 +26,7 @@ public class GetCatalogItemsQueryHandler :
         CancellationToken cancellationToken)
     {
         var query = _context.ItemCatalog.AsNoTracking().AsQueryable()
+            .Where(i => i.IsActive)
             .FilterBySearchTerm(
                 request.SearchTerm)
             .FilterByCity(

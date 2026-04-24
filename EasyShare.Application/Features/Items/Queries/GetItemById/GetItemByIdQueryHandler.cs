@@ -35,8 +35,8 @@ public class GetItemByIdQueryHandler : IRequestHandler<GetItemByIdQuery, ItemDet
                 .ThenInclude(b => b.Reviews)
             .Include(i => i.Bookings)
                 .ThenInclude(b => b.User)
-            .FirstOrDefaultAsync(i => 
-                i.Id == request.Id, 
+            .FirstOrDefaultAsync(i =>
+                i.Id == request.Id && i.IsActive, 
                 cancellationToken);
 
         if (item == null)
@@ -45,27 +45,6 @@ public class GetItemByIdQueryHandler : IRequestHandler<GetItemByIdQuery, ItemDet
                 "На жаль, цей товар не знайдено. " +
                 "Можливо, його було видалено власником.");
         }
-
-        var attributes = item.ItemAttributeValues
-            .ToDictionary(
-                iav => iav.Attribute.Name, 
-                iav => iav.Value);
-
-        var allReviews = item.Bookings
-            .SelectMany(
-                b => b.Reviews
-                    .Select(
-                        r => new 
-                        { 
-                            Review = r, 
-                            b.User 
-                        }))
-            .ToList();
-
-        double avgRating = allReviews.Count > 0
-            ? allReviews
-                .Average(x => x.Review.Rating)
-            : 0.0;
 
         return this._mapper.Map<ItemDetailsDto>(item);
     }
