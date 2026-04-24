@@ -1,4 +1,6 @@
 ﻿using EasyShare.Application.Features.Bookings.Commands.CreateBooking;
+using EasyShare.Application.Features.Bookings.Queries.GetUserBookings;
+using EasyShare.Application.Features.Bookings.Queries.GetUserBookingStats;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,5 +26,22 @@ public class BookingsController : ControllerBase
         await this._mediator.Send(command);
 
         return NoContent();
+    }
+
+    [HttpGet("user-stats")]
+    public async Task<IActionResult> GetMyStats()
+    {
+        var stats = await this._mediator.Send(new GetMyBookingStatsQuery());
+
+        return Ok(stats);
+    }
+
+    [HttpGet("user-bookings")]
+    public async Task<IActionResult> GetMyBookings(
+        [FromQuery] GetMyBookingsQuery query)
+    {
+        var bookings = await this._mediator.Send(query);
+
+        return Ok(bookings);
     }
 }
