@@ -1,4 +1,6 @@
-﻿using EasyShare.Application.Features.Bookings.Commands.CreateBooking;
+﻿using EasyShare.Application.Features.Bookings.Commands.CancelBooking;
+using EasyShare.Application.Features.Bookings.Commands.CreateBooking;
+using EasyShare.Application.Features.Bookings.Commands.UpdateBooking;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookings;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookingStats;
 using MediatR;
@@ -43,5 +45,36 @@ public class BookingsController : ControllerBase
         var bookings = await this._mediator.Send(query);
 
         return Ok(bookings);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateBooking(
+        int id, 
+        [FromBody] UpdateBookingCommand command)
+    {
+        if (id != command.BookingId)
+        {
+            return BadRequest("ID бронювання в URL не збігається з ID у тілі запиту.");
+        }
+
+        await this._mediator.Send(command);
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}/cancel")]
+    public async Task<IActionResult> CancelBooking(
+        int id,
+        [FromBody] CancelBookingCommand command)
+    {
+        if (id != command.BookingId)
+        {
+            return BadRequest(
+                "ID бронювання в URL не збігається з ID у тілі запиту.");
+        }
+
+        await this._mediator.Send(command);
+
+        return NoContent();
     }
 }

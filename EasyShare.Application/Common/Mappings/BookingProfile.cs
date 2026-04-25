@@ -30,6 +30,10 @@ public class BookingProfile : Profile
                 opt => opt.MapFrom(src => src.EndDatetime))
 
             .ForMember(
+                dest => dest.Quantity,
+                opt => opt.MapFrom(src => src.RentedQuantity))
+
+            .ForMember(
                 dest => dest.Status, 
                 opt => opt.MapFrom(src => src.Status.ToString()));
     }
