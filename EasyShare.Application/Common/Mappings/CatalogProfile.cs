@@ -4,9 +4,9 @@ using EasyShare.Domain.Entities;
 
 namespace EasyShare.Application.Common.Mappings;
 
-public class CatalogMappingProfile : Profile
+public class CatalogProfile : Profile
 {
-    public CatalogMappingProfile()
+    public CatalogProfile()
     {
         CreateMap<ItemCatalogView, CatalogItemDto>();
     }
