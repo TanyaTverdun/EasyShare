@@ -4,6 +4,7 @@ using EasyShare.Application.Common.Interfaces;
 using EasyShare.Application.Common.Interfaces.Authentication;
 using EasyShare.Application.Features.Auth.Queries.Login;
 using EasyShare.Domain.Entities;
+using EasyShare.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,7 +58,8 @@ public class RegisterUserCommandHandler
         var token = this._jwtProvider.GenerateToken(
             user.Id.ToString(), 
             user.Email, 
-            user.FirstName);
+            user.FirstName,
+            AccountType.User);
 
         return this._mapper.Map<AuthResponseDto>(user) with 
         { 

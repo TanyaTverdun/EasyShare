@@ -1,9 +1,10 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+﻿using AutoMapper;
+using EasyShare.Application.Common.Exceptions;
 using EasyShare.Application.Common.Interfaces;
 using EasyShare.Application.Common.Interfaces.Authentication;
-using EasyShare.Application.Common.Exceptions;
+using EasyShare.Domain.Enums;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyShare.Application.Features.Auth.Queries.Login;
 
@@ -44,7 +45,8 @@ public class LoginQueryHandler
                 user.PasswordHash,
                 user.Id.ToString(),
                 user.Email,
-                user.FirstName);
+                user.FirstName,
+                AccountType.User);
         }
 
         var company = await this._context.Companies
@@ -60,7 +62,8 @@ public class LoginQueryHandler
                 company.PasswordHash,
                 company.Id.ToString(),
                 company.Email,
-                company.Name);
+                company.Name,
+                AccountType.Company);
         }
 
         throw new UnauthorizedException("Невірний email або пароль.");
@@ -72,7 +75,8 @@ public class LoginQueryHandler
         string realHash,
         string id,
         string email,
-        string name)
+        string name,
+        AccountType accountType)
     {
         if (!this._passwordHasher.VerifyPassword(
             inputPassword,
@@ -84,7 +88,8 @@ public class LoginQueryHandler
         var token = this._jwtProvider.GenerateToken(
             id, 
             email, 
-            name);
+            name,
+            accountType);
 
         return this._mapper.Map<AuthResponseDto>(account) with 
         { 

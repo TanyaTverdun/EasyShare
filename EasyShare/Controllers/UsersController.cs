@@ -1,12 +1,13 @@
 ﻿using EasyShare.Application.Features.Users.Commands.UpdateProfile;
 using EasyShare.Application.Features.Users.Queries.GetProfile;
+using EasyShare.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyShare.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = nameof(AccountType.User))]
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase

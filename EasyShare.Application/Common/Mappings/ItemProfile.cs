@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyShare.Application.Features.Companies.Queries.GetItems;
 using EasyShare.Application.Features.Items.Queries.GetItemById;
 using EasyShare.Domain.Entities;
 
@@ -86,5 +87,17 @@ public class ItemProfile : Profile
                     src.Bookings
                         .SelectMany(b => b.Reviews)
                         .OrderByDescending(r => r.CreatedAt)));
+
+        CreateMap<Item, CompanyItemDto>()
+            .ForMember(
+                dest => dest.BookingsCount, 
+                opt => opt.MapFrom(src => src.Bookings.Count))
+
+            .ForMember(
+                dest => dest.Rating, 
+                opt => opt.MapFrom(src =>
+                    src.Bookings
+                        .SelectMany(b => b.Reviews)
+                        .Average(r => (double?)r.Rating) ?? 0));
     }
 }

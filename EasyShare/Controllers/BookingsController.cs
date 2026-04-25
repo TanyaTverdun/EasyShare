@@ -4,13 +4,14 @@ using EasyShare.Application.Features.Bookings.Commands.ReturnBooking;
 using EasyShare.Application.Features.Bookings.Commands.UpdateBooking;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookings;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookingStats;
+using EasyShare.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyShare.API.Controllers;
 
-[Authorize]
+[Authorize(Roles = nameof(AccountType.User))]
 [ApiController]
 [Route("api/[controller]")]
 public class BookingsController : ControllerBase

@@ -2,6 +2,7 @@
 using EasyShare.Application.Common.Exceptions;
 using EasyShare.Application.Common.Interfaces;
 using EasyShare.Application.Common.Interfaces.Authentication;
+using EasyShare.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -59,7 +60,8 @@ public class UpdateUserProfileCommandHandler
         var newToken = this._jwtProvider.GenerateToken(
             user.Id.ToString(),
             user.Email,
-            user.FirstName);
+            user.FirstName,
+            AccountType.User);
 
         return this._mapper.Map<UserProfileResponse>(user) with 
         { 
