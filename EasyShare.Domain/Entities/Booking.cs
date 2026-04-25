@@ -19,4 +19,16 @@ public class Booking
     public User User { get; set; } = null!;
 
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
+
+    public void Cancel()
+    {
+        if (Status != BookingStatus.PendingConfirmation &&
+            Status != BookingStatus.Confirmed)
+        {
+            throw new InvalidOperationException(
+                "Це бронювання вже не можна скасувати.");
+        }
+
+        Status = BookingStatus.Cancelled;
+    }
 }

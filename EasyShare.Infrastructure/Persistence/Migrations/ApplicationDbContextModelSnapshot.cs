@@ -280,7 +280,7 @@ namespace EasyShare.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("AttributeId", "Value");
 
-                    b.ToTable("ItemAttributeValues");
+                    b.ToTable("ItemAttributeValues", (string)null);
                 });
 
             modelBuilder.Entity("EasyShare.Domain.Entities.ItemCatalogView", b =>
