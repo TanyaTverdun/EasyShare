@@ -14,7 +14,7 @@ public class BookingItemDto
     public decimal TotalPrice { get; set; }
 
     public string Status { get; set; }
-    public int Quantity { get; set; }
+    public short Quantity { get; set; }
 
     public bool CanEdit => Status == BookingStatus.PendingConfirmation.ToString();
     public bool CanCancel => Status == BookingStatus.PendingConfirmation.ToString() ||

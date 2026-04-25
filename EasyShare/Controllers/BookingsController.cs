@@ -1,5 +1,6 @@
 ﻿using EasyShare.Application.Features.Bookings.Commands.CancelBooking;
 using EasyShare.Application.Features.Bookings.Commands.CreateBooking;
+using EasyShare.Application.Features.Bookings.Commands.ReturnBooking;
 using EasyShare.Application.Features.Bookings.Commands.UpdateBooking;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookings;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookingStats;
@@ -76,5 +77,22 @@ public class BookingsController : ControllerBase
         await this._mediator.Send(command);
 
         return NoContent();
+    }
+
+    [HttpPost("{id}/return")]
+    public async Task<IActionResult> ReturnBooking(
+    [FromRoute] int id,
+    [FromBody] ReturnBookingRequest request,
+    CancellationToken cancellationToken)
+    {
+        var command = new ReturnBookingCommand { 
+            BookingId = id,
+            Rating = request.Rating,
+            Comment = request.Comment
+        };
+
+        await this._mediator.Send(command, cancellationToken);
+
+        return Ok(new { message = "Запит на повернення успішно створено." });
     }
 }

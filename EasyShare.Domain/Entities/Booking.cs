@@ -31,4 +31,15 @@ public class Booking
 
         Status = BookingStatus.Cancelled;
     }
+
+    public void RequestReturn()
+    {
+        if (Status != BookingStatus.Active)
+        {
+            throw new InvalidOperationException(
+                "Ви можете повернути тільки активне бронювання.");
+        }
+
+        Status = BookingStatus.PendingReturn;
+    }
 }
