@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyShare.Application.Features.Bookings.Commands.ReturnBooking;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookings;
 using EasyShare.Domain.Entities;
 
@@ -36,5 +37,17 @@ public class BookingProfile : Profile
             .ForMember(
                 dest => dest.Status, 
                 opt => opt.MapFrom(src => src.Status.ToString()));
+
+        CreateMap<ReturnBookingCommand, Review>()
+
+            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating!.Value))
+
+            // Зашиваємо бізнес-правила прямо в мапер
+            .ForMember(dest => dest.IsOwner, opt => opt.MapFrom(src => false))
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTimeOffset.UtcNow))
+
+            // Ігноруємо навігаційні властивості та Id
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Booking, opt => opt.Ignore());
     }
 }
