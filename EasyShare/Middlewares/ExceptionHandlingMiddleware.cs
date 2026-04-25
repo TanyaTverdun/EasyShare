@@ -77,6 +77,16 @@ public class ExceptionHandlingMiddleware
                 }
             ),
 
+            BadRequestException bre => (
+                StatusCodes.Status400BadRequest,
+                (object)new
+                {
+                    Title = "Некоректний запит",
+                    Status = StatusCodes.Status400BadRequest,
+                    Detail = bre.Message
+                }
+            ),
+
             _ => (
                 StatusCodes.Status500InternalServerError,
                 (object)new
