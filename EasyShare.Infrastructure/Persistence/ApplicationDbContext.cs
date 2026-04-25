@@ -43,5 +43,17 @@ namespace EasyShare.Infrastructure.Persistence
                 $"CALL sp_create_booking_safe({userId}, {itemId}, {quantity}, {startDate}, {endDate})",
                 cancellationToken);
         }
+
+        public async Task ExecuteUpdateBookingProcedureAsync(
+            int bookingId,
+            DateTime startDate,
+            DateTime endDate,
+            int quantity,
+            CancellationToken cancellationToken)
+        {
+            await Database.ExecuteSqlInterpolatedAsync(
+                $"CALL sp_update_booking_safe({bookingId}, {startDate}, {endDate}, {quantity})",
+                cancellationToken);
+        }
     }
 }

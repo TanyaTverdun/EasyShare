@@ -26,4 +26,11 @@ public interface IApplicationDbContext
         DateTime startDate, 
         DateTime endDate, 
         CancellationToken cancellationToken);
+
+    Task ExecuteUpdateBookingProcedureAsync(
+        int bookingId,
+        DateTime startDate,
+        DateTime endDate,
+        int quantity,
+        CancellationToken cancellationToken);
 }
