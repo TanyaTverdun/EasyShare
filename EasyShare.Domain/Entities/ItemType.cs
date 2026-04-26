@@ -21,4 +21,16 @@ public class ItemType
             IsDeleted = false 
         };
     }
+
+    public void Delete()
+    {
+        if (IsDeleted) return;
+
+        IsDeleted = true;
+
+        foreach (var attribute in Attributes)
+        {
+            attribute.Delete();
+        }
+    }
 }
