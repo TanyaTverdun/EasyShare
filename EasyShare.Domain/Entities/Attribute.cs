@@ -25,4 +25,15 @@ public class Attribute
     {
         IsDeleted = true;
     }
+
+    public void UpdateName(string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+        {
+            throw new ArgumentException(
+                "Назва характеристики не може бути порожньою.");
+        }
+
+        Name = newName.Trim();
+    }
 }

@@ -15,4 +15,30 @@ public class Category
             IsDeleted = false 
         };
     }
+
+    public void UpdateName(string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+        {
+            throw new ArgumentException(
+                "Назва категорії не може бути порожньою.");
+        }
+
+        Name = newName.Trim();
+    }
+
+    public void Delete()
+    {
+        if (IsDeleted)
+        {
+            return;
+        }
+
+        IsDeleted = true;
+
+        foreach (var itemType in ItemTypes)
+        {
+            itemType.Delete();
+        }
+    }
 }
