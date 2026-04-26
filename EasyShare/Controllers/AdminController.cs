@@ -1,4 +1,5 @@
 ﻿using EasyShare.Application.Features.Admin.Commands.DeleteItemType;
+using EasyShare.Application.Features.Admin.Commands.UpdateItemType;
 using EasyShare.Application.Features.Admin.Queries.GetItemTypes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -43,6 +44,25 @@ public class AdminController : ControllerBase
         var command = new DeleteItemTypeCommand 
         { 
             Id = id 
+        };
+
+        await this._mediator.Send(
+            command, 
+            cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPut("item-types/{id}")]
+    public async Task<IActionResult> UpdateItemType(
+        int id, 
+        [FromBody] string name, 
+        CancellationToken cancellationToken)
+    {
+        var command = new UpdateItemTypeCommand
+        {
+            Id = id,
+            Name = name
         };
 
         await this._mediator.Send(

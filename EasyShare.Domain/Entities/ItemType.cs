@@ -33,4 +33,15 @@ public class ItemType
             attribute.Delete();
         }
     }
+
+    public void UpdateName(string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+        {
+            throw new ArgumentException(
+                "Назва не може бути порожньою.");
+        }
+
+        Name = newName.Trim();
+    }
 }

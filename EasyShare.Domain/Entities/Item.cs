@@ -121,6 +121,7 @@ public class Item
             }
         }
     }
+
     public void Deactivate()
     {
         IsActive = false;
