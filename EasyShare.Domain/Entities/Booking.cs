@@ -32,6 +32,40 @@ public class Booking
         Status = BookingStatus.Cancelled;
     }
 
+    public void Confirm()
+    {
+        if (Status != BookingStatus.PendingConfirmation)
+        {
+            throw new InvalidOperationException(
+                "Можна підтвердити лише бронювання, яке очікує підтвердження.");
+        }
+
+        Status = BookingStatus.Confirmed;
+    }
+
+    public void Issue()
+    {
+        if (Status != BookingStatus.Confirmed)
+        {
+            throw new InvalidOperationException(
+                "Видати можна лише підтверджене бронювання.");
+        }
+
+        Status = BookingStatus.Active;
+    }
+
+    public void Complete()
+    {
+        if (Status != BookingStatus.PendingReturn && 
+            Status != BookingStatus.Active)
+        {
+            throw new InvalidOperationException(
+                "Завершити можна лише бронювання, що знаходиться в оренді або очікує повернення.");
+        }
+
+        Status = BookingStatus.Completed;
+    }
+
     public void RequestReturn()
     {
         if (Status != BookingStatus.Active)

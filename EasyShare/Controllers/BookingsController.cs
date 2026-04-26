@@ -1,5 +1,8 @@
 ﻿using EasyShare.Application.Features.Bookings.Commands.CancelBooking;
+using EasyShare.Application.Features.Bookings.Commands.CompleteBooking;
+using EasyShare.Application.Features.Bookings.Commands.ConfirmBooking;
 using EasyShare.Application.Features.Bookings.Commands.CreateBooking;
+using EasyShare.Application.Features.Bookings.Commands.IssueBooking;
 using EasyShare.Application.Features.Bookings.Commands.ReturnBooking;
 using EasyShare.Application.Features.Bookings.Commands.UpdateBooking;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookings;
@@ -95,5 +98,53 @@ public class BookingsController : ControllerBase
         await this._mediator.Send(command, cancellationToken);
 
         return Ok(new { message = "Запит на повернення успішно створено." });
+    }
+
+    [HttpPut("{id}/confirm")]
+    public async Task<IActionResult> ConfirmBooking(
+        int id,
+        [FromBody] ConfirmBookingCommand command)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest(
+                "ID бронювання в URL не збігається з ID у тілі запиту.");
+        }
+
+        await this._mediator.Send(command);
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}/issue")]
+    public async Task<IActionResult> IssueBooking(
+        int id,
+        [FromBody] IssueBookingCommand command)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest(
+                "ID бронювання в URL не збігається з ID у тілі запиту.");
+        }
+
+        await this._mediator.Send(command);
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}/complete")]
+    public async Task<IActionResult> CompleteBooking(
+        int id,
+        [FromBody] CompleteBookingCommand command)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest(
+                "ID бронювання в URL не збігається з ID у тілі запиту.");
+        }
+
+        await this._mediator.Send(command);
+
+        return NoContent();
     }
 }
