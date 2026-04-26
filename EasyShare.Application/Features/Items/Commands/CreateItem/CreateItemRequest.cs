@@ -1,7 +1,7 @@
 ﻿using EasyShare.Domain.Enums;
 using Microsoft.AspNetCore.Http;
 
-namespace EasyShare.Application.Features.Companies.Commands.CreateItem;
+namespace EasyShare.Application.Features.Items.Commands.CreateItem;
 
 public record CreateItemRequest
 {

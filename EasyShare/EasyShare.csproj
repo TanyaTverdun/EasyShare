@@ -25,4 +25,8 @@
     <ProjectReference Include="..\EasyShare.Infrastructure\EasyShare.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

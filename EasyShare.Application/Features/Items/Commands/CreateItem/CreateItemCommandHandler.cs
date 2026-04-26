@@ -4,7 +4,7 @@ using EasyShare.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyShare.Application.Features.Companies.Commands.CreateItem;
+namespace EasyShare.Application.Features.Items.Commands.CreateItem;
 
 public class CreateItemCommandHandler 
     : IRequestHandler<CreateItemCommand, int>

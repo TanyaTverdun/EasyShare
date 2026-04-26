@@ -77,6 +77,50 @@ public class Item
         return item;
     }
 
+    public void UpdateDetails(
+        string name,
+        string description,
+        int typeId,
+        Location location,
+        BillingPeriod billingPeriod,
+        decimal price,
+        int stockQuantity,
+        int? maxRentDays,
+        decimal? depositAmount,
+        int? prepaymentPercent,
+        string? newImageUrl,
+        Dictionary<int, string>? attributes)
+    {
+        Name = name;
+        Description = description;
+        TypeId = typeId;
+        Location = location;
+        BillingPeriod = billingPeriod;
+        Price = price;
+        StockQuantity = stockQuantity;
+        MaxRentDays = maxRentDays;
+        DepositAmount = depositAmount;
+        PrepaymentPercent = prepaymentPercent;
+
+        if (!string.IsNullOrEmpty(newImageUrl))
+        {
+            ImageUrl = newImageUrl;
+        }
+
+        ItemAttributeValues.Clear();
+
+        if (attributes != null && attributes.Any())
+        {
+            foreach (var attr in attributes)
+            {
+                ItemAttributeValues.Add(new ItemAttributeValue
+                {
+                    AttributeId = attr.Key,
+                    Value = attr.Value
+                });
+            }
+        }
+    }
     public void Deactivate()
     {
         IsActive = false;

@@ -1,4 +1,5 @@
-﻿using EasyShare.Application.Features.Items.Queries.GetItemById;
+﻿using EasyShare.Application.Features.Items.Commands.UpdateItem;
+using EasyShare.Application.Features.Items.Queries.GetItemById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +24,21 @@ namespace EasyShare.Controllers
             var result = await _mediator.Send(query);
 
             return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateItem(
+        [FromRoute] int id,
+        [FromForm] UpdateItemRequest request,
+        CancellationToken cancellationToken)
+        {
+            var command = request.ToCommand(id);
+
+            await this._mediator.Send(
+                command, 
+                cancellationToken);
+
+            return NoContent();
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using EasyShare.Application.Features.Companies.Commands.ActivateItem;
-using EasyShare.Application.Features.Companies.Commands.CreateItem;
-using EasyShare.Application.Features.Companies.Commands.DeactivateItem;
-using EasyShare.Application.Features.Companies.Commands.UpdateProfile;
+﻿using EasyShare.Application.Features.Companies.Commands.UpdateProfile;
 using EasyShare.Application.Features.Companies.Queries.GetBookings;
 using EasyShare.Application.Features.Companies.Queries.GetItems;
 using EasyShare.Application.Features.Companies.Queries.GetProfile;
+using EasyShare.Application.Features.Items.Commands.ActivateItem;
+using EasyShare.Application.Features.Items.Commands.CreateItem;
+using EasyShare.Application.Features.Items.Commands.DeactivateItem;
+using EasyShare.Application.Features.Locations.Queries;
 using EasyShare.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -106,5 +107,21 @@ public class CompaniesController : ControllerBase
         var itemId = await this._mediator.Send(command, cancellationToken);
 
         return Created("", new { Id = itemId });
+    }
+
+    [HttpGet("company-location")]
+    public async Task<ActionResult<LocationDto>> GetCompanyLocation(
+        CancellationToken cancellationToken)
+    {
+        var result = await this._mediator.Send(
+            new GetMyCompanyLocationQuery(), 
+            cancellationToken);
+
+        if (result == null)
+        {
+            return NotFound("Компанію не знайдено");
+        }
+
+        return Ok(result);
     }
 }

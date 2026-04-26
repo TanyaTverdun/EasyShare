@@ -54,6 +54,8 @@ public static class DependencyInjection
             };
         });
 
+        services.AddScoped<IFileService, FileService>();
+
         services.AddHttpContextAccessor();
 
         services.AddScoped<IUserContext, UserContext>();

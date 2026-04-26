@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace EasyShare.Application.Features.Companies.Commands.ActivateItem;
+namespace EasyShare.Application.Features.Items.Commands.ActivateItem;
 
 public record ActivateItemCommand : IRequest<Unit>
 {

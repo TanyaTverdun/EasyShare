@@ -77,6 +77,16 @@ public class ExceptionHandlingMiddleware
                 }
             ),
 
+            ForbiddenAccessException fae => (
+                StatusCodes.Status403Forbidden,
+                (object)new
+                {
+                    Title = "Доступ заборонено",
+                    Status = StatusCodes.Status403Forbidden,
+                    Detail = fae.Message ?? "У вас немає прав для виконання цієї операції."
+                }
+            ),
+
             BadRequestException bre => (
                 StatusCodes.Status400BadRequest,
                 (object)new

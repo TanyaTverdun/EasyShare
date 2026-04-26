@@ -3,15 +3,15 @@ using EasyShare.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyShare.Application.Features.Companies.Commands.DeactivateItem;
+namespace EasyShare.Application.Features.Items.Commands.ActivateItem;
 
-public class DeactivateItemCommandHandler
-    : IRequestHandler<DeactivateItemCommand, Unit>
+public class ActivateItemCommandHandler 
+    : IRequestHandler<ActivateItemCommand, Unit>
 {
     private readonly IApplicationDbContext _context;
     private readonly IUserContext _userContext;
 
-    public DeactivateItemCommandHandler(
+    public ActivateItemCommandHandler(
         IApplicationDbContext context, 
         IUserContext userContext)
     {
@@ -20,24 +20,23 @@ public class DeactivateItemCommandHandler
     }
 
     public async Task<Unit> Handle(
-        DeactivateItemCommand request, 
+        ActivateItemCommand request, 
         CancellationToken cancellationToken)
     {
         var companyId = this._userContext.UserId;
 
-        var item = await this._context.Items
+        var item = await _context.Items
             .FirstOrDefaultAsync(i => 
                 i.Id == request.Id && 
-                i.CompanyId == companyId,
+                i.CompanyId == companyId, 
                 cancellationToken);
 
         if (item == null)
         {
-            throw new NotFoundException(
-                "Товар не знайдено або у вас немає прав на його редагування.");
+            throw new NotFoundException("Товар не знайдено");
         }
 
-        item.Deactivate();
+        item.Activate();
 
         await this._context.SaveChangesAsync(cancellationToken);
 

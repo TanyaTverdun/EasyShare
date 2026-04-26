@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace EasyShare.Application.Features.Companies.Commands.DeactivateItem;
+namespace EasyShare.Application.Features.Items.Commands.DeactivateItem;
 
 public record DeactivateItemCommand : IRequest<Unit>
 {

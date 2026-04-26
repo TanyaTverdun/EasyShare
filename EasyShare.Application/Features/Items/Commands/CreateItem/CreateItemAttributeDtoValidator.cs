@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace EasyShare.Application.Features.Companies.Commands.CreateItem;
+namespace EasyShare.Application.Features.Items.Commands.CreateItem;
 
 public class CreateItemAttributeDtoValidator 
     : AbstractValidator<CreateItemAttributeDto>
