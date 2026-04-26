@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyShare.Application.Features.Bookings.Commands.CompleteBooking;
 using EasyShare.Application.Features.Bookings.Commands.ReturnBooking;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookings;
 using EasyShare.Application.Features.Companies.Queries.GetBookings;
@@ -59,6 +60,27 @@ public class BookingProfile : Profile
 
             .ForMember(
                 dest => dest.Booking, 
+                opt => opt.Ignore());
+
+        CreateMap<CompleteBookingCommand, Review>()
+            .ForMember(
+                dest => dest.Rating,
+                opt => opt.MapFrom(src => src.Rating!.Value))
+
+            .ForMember(
+                dest => dest.IsOwner,
+                opt => opt.MapFrom(src => true))
+
+            .ForMember(
+                dest => dest.CreatedAt,
+                opt => opt.MapFrom(src => DateTimeOffset.UtcNow))
+
+            .ForMember(
+                dest => dest.Id,
+                opt => opt.Ignore())
+
+            .ForMember(
+                dest => dest.Booking,
                 opt => opt.Ignore());
 
         CreateMap<Booking, CompanyBookingDto>()

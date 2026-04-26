@@ -17,11 +17,11 @@ namespace EasyShare.API.Controllers;
 [Authorize(Roles = nameof(AccountType.User))]
 [ApiController]
 [Route("api/[controller]")]
-public class BookingsController : ControllerBase
+public class UserBookingsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public BookingsController(IMediator mediator)
+    public UserBookingsController(IMediator mediator)
     {
         this._mediator = mediator;
     }
@@ -44,7 +44,7 @@ public class BookingsController : ControllerBase
     }
 
     [HttpGet("user-bookings")]
-    public async Task<IActionResult> GetMyBookings(
+    public async Task<IActionResult> GetUserBookings(
         [FromQuery] GetMyBookingsQuery query)
     {
         var bookings = await this._mediator.Send(query);
@@ -98,53 +98,5 @@ public class BookingsController : ControllerBase
         await this._mediator.Send(command, cancellationToken);
 
         return Ok(new { message = "Запит на повернення успішно створено." });
-    }
-
-    [HttpPut("{id}/confirm")]
-    public async Task<IActionResult> ConfirmBooking(
-        int id,
-        [FromBody] ConfirmBookingCommand command)
-    {
-        if (id != command.Id)
-        {
-            return BadRequest(
-                "ID бронювання в URL не збігається з ID у тілі запиту.");
-        }
-
-        await this._mediator.Send(command);
-
-        return NoContent();
-    }
-
-    [HttpPut("{id}/issue")]
-    public async Task<IActionResult> IssueBooking(
-        int id,
-        [FromBody] IssueBookingCommand command)
-    {
-        if (id != command.Id)
-        {
-            return BadRequest(
-                "ID бронювання в URL не збігається з ID у тілі запиту.");
-        }
-
-        await this._mediator.Send(command);
-
-        return NoContent();
-    }
-
-    [HttpPut("{id}/complete")]
-    public async Task<IActionResult> CompleteBooking(
-        int id,
-        [FromBody] CompleteBookingCommand command)
-    {
-        if (id != command.Id)
-        {
-            return BadRequest(
-                "ID бронювання в URL не збігається з ID у тілі запиту.");
-        }
-
-        await this._mediator.Send(command);
-
-        return NoContent();
     }
 }

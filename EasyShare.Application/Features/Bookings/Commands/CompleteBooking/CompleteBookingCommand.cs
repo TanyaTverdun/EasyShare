@@ -2,7 +2,9 @@
 
 namespace EasyShare.Application.Features.Bookings.Commands.CompleteBooking;
 
-public record CompleteBookingCommand : IRequest
+public record CompleteBookingCommand : IRequest<Unit>
 {
-    public int Id { get; init; }
+    public required int BookingId { get; init; }
+    public int? Rating { get; init; }
+    public string? Comment { get; init; }
 }

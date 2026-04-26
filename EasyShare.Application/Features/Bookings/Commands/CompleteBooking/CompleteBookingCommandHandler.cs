@@ -1,26 +1,31 @@
-﻿using EasyShare.Application.Common.Exceptions;
+﻿using AutoMapper;
+using EasyShare.Application.Common.Exceptions;
 using EasyShare.Application.Common.Interfaces;
+using EasyShare.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyShare.Application.Features.Bookings.Commands.CompleteBooking;
 
 public class CompleteBookingCommandHandler 
-    : IRequestHandler<CompleteBookingCommand>
+    : IRequestHandler<CompleteBookingCommand, Unit>
 {
     private readonly IApplicationDbContext _context;
     private readonly IUserContext _userContext;
+    private readonly IMapper _mapper;
 
     public CompleteBookingCommandHandler(
-        IApplicationDbContext context, 
-        IUserContext userContext)
+        IApplicationDbContext context,
+        IUserContext userContext,
+        IMapper mapper)
     {
         this._context = context;
         this._userContext = userContext;
+        this._mapper = mapper;
     }
 
-    public async Task Handle(
-        CompleteBookingCommand request, 
+    public async Task<Unit> Handle(
+        CompleteBookingCommand request,
         CancellationToken cancellationToken)
     {
         var companyId = this._userContext.UserId;
@@ -28,7 +33,7 @@ public class CompleteBookingCommandHandler
         var booking = await this._context.Bookings
             .Include(b => b.Item)
             .FirstOrDefaultAsync(b =>
-                b.Id == request.Id &&
+                b.Id == request.BookingId &&
                 b.Item.CompanyId == companyId,
                 cancellationToken);
 
@@ -47,6 +52,15 @@ public class CompleteBookingCommandHandler
             throw new ConflictException(ex.Message);
         }
 
+        if (request.Rating.HasValue)
+        {
+            var review = this._mapper.Map<Review>(request);
+
+            this._context.Reviews.Add(review);
+        }
+
         await this._context.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }
