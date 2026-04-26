@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EasyShare.Application.Features.Bookings.Commands.ReturnBooking;
 using EasyShare.Application.Features.Bookings.Queries.GetUserBookings;
+using EasyShare.Application.Features.Companies.Queries.GetBookings;
 using EasyShare.Domain.Entities;
 
 namespace EasyShare.Application.Common.Mappings;
@@ -40,14 +41,42 @@ public class BookingProfile : Profile
 
         CreateMap<ReturnBookingCommand, Review>()
 
-            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating!.Value))
+            .ForMember(
+                dest => dest.Rating, 
+                opt => opt.MapFrom(src => src.Rating!.Value))
 
-            // Зашиваємо бізнес-правила прямо в мапер
-            .ForMember(dest => dest.IsOwner, opt => opt.MapFrom(src => false))
-            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTimeOffset.UtcNow))
+            .ForMember(
+                dest => dest.IsOwner, 
+                opt => opt.MapFrom(src => false))
 
-            // Ігноруємо навігаційні властивості та Id
-            .ForMember(dest => dest.Id, opt => opt.Ignore())
-            .ForMember(dest => dest.Booking, opt => opt.Ignore());
+            .ForMember(
+                dest => dest.CreatedAt, 
+                opt => opt.MapFrom(src => DateTimeOffset.UtcNow))
+
+            .ForMember(
+                dest => dest.Id, 
+                opt => opt.Ignore())
+
+            .ForMember(
+                dest => dest.Booking, 
+                opt => opt.Ignore());
+
+        CreateMap<Booking, CompanyBookingDto>()
+            .ForMember(
+                dest => dest.ItemName, 
+                opt => opt.MapFrom(src => src.Item.Name))
+
+            .ForMember(
+                dest => dest.ItemImageUrl, 
+                opt => opt.MapFrom(src => src.Item.ImageUrl))
+
+            .ForMember(
+                dest => dest.UserName, 
+                opt => opt.MapFrom(
+                    src => src.User.FirstName + " " + src.User.LastName))
+
+            .ForMember(
+                dest => dest.TotalPrice, 
+                opt => opt.MapFrom(src => src.TotalPrice));
     }
 }

@@ -28,4 +28,14 @@ public class Item
 
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     public ICollection<ItemAttributeValue> ItemAttributeValues { get; set; } = new List<ItemAttributeValue>();
+
+    public void Deactivate()
+    {
+        IsActive = false;
+    }
+
+    public void Activate()
+    {
+        IsActive = true;
+    }
 }
