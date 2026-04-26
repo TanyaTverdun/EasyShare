@@ -11,4 +11,14 @@ public class ItemType
 
     public ICollection<Attribute> Attributes { get; set; } = new List<Attribute>();
     public ICollection<Item> Items { get; set; } = new List<Item>();
+
+    public static ItemType Create(string name, int categoryId)
+    {
+        return new ItemType 
+        { 
+            Name = name, 
+            CategoryId = categoryId, 
+            IsDeleted = false 
+        };
+    }
 }

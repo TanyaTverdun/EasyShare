@@ -10,4 +10,19 @@ public class Attribute
     public ItemType ItemType { get; set; } = null!;
 
     public ICollection<ItemAttributeValue> ItemAttributeValues { get; set; } = new List<ItemAttributeValue>();
+
+    public static Attribute Create(string name, int typeId)
+    {
+        return new Attribute 
+        { 
+            Name = name, 
+            TypeId = typeId, 
+            IsDeleted = false 
+        };
+    }
+
+    public void Delete()
+    {
+        IsDeleted = true;
+    }
 }

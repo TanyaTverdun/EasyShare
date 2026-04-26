@@ -7,4 +7,12 @@ public class Category
     public bool IsDeleted { get; set; }
 
     public ICollection<ItemType> ItemTypes { get; set; } = new List<ItemType>();
+
+    public static Category Create(string name) {
+        return new Category 
+        { 
+            Name = name, 
+            IsDeleted = false 
+        };
+    }
 }
