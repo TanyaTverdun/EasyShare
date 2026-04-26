@@ -1,18 +1,16 @@
 ﻿using EasyShare.Application.Common.Interfaces;
 using EasyShare.Application.Features.Bookings.Extensions;
-using EasyShare.Domain.Enums;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace EasyShare.Application.Features.Bookings.Queries.GetUserBookingStats
 {
-    public class GetMyBookingStatsQueryHandler 
-        : IRequestHandler<GetMyBookingStatsQuery, BookingStatsDto>
+    public class GetUserBookingStatsQueryHandler 
+        : IRequestHandler<GetUserBookingStatsQuery, BookingStatsDto>
     {
         private readonly IApplicationDbContext _context;
         private readonly IUserContext _userContext;
 
-        public GetMyBookingStatsQueryHandler(
+        public GetUserBookingStatsQueryHandler(
             IApplicationDbContext context, 
             IUserContext userContext)
         {
@@ -21,7 +19,7 @@ namespace EasyShare.Application.Features.Bookings.Queries.GetUserBookingStats
         }
 
         public async Task<BookingStatsDto> Handle(
-            GetMyBookingStatsQuery request, 
+            GetUserBookingStatsQuery request, 
             CancellationToken cancellationToken)
         {
             var userId = this._userContext.UserId;

@@ -70,6 +70,8 @@ namespace EasyShare.Application.Features.Items.Commands.UpdateItem
                     cancellationToken);
             }
 
+            var oldImageUrl = item.ImageUrl;
+
             var attributesDict = request.Attributes?
                 .ToDictionary(a => a.AttributeId, a => a.Value);
 
@@ -89,6 +91,17 @@ namespace EasyShare.Application.Features.Items.Commands.UpdateItem
             );
 
             await this._context.SaveChangesAsync(cancellationToken);
+
+            if (newImageUrl != null && 
+                !string.IsNullOrEmpty(oldImageUrl))
+            {
+                if (newImageUrl != oldImageUrl)
+                {
+                    await this._fileService.DeleteImageAsync(
+                        oldImageUrl, 
+                        cancellationToken);
+                }
+            }
 
             return Unit.Value;
         }

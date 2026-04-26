@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using EasyShare.Application.Common.Exceptions;
 using EasyShare.Application.Common.Interfaces;
+using EasyShare.Application.Common.Models;
 using EasyShare.Application.Features.Companies.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EasyShare.Application.Features.Companies.Queries.GetBookings;
 
 public class GetCompanyBookingsQueryHandler
-: IRequestHandler<GetCompanyBookingsQuery, List<CompanyBookingDto>>
+    : IRequestHandler<GetCompanyBookingsQuery, PagedResult<CompanyBookingDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IUserContext _userContext;
@@ -24,8 +26,8 @@ public class GetCompanyBookingsQueryHandler
         this._mapper = mapper;
     }
 
-    public async Task<List<CompanyBookingDto>> Handle(
-        GetCompanyBookingsQuery request, 
+    public async Task<PagedResult<CompanyBookingDto>> Handle(
+        GetCompanyBookingsQuery request,
         CancellationToken cancellationToken)
     {
         var companyId = this._userContext.UserId;
@@ -39,6 +41,9 @@ public class GetCompanyBookingsQueryHandler
 
         return await query
             .ProjectTo<CompanyBookingDto>(this._mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
+            .PaginatedListAsync(
+                request.Page, 
+                request.PageSize, 
+                cancellationToken);
     }
 }

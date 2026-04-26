@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using EasyShare.Application.Common.Exceptions;
 using EasyShare.Application.Common.Interfaces;
+using EasyShare.Application.Common.Models;
 using EasyShare.Application.Features.Companies.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace EasyShare.Application.Features.Companies.Queries.GetItems;
 
 public class GetCompanyItemsQueryHandler
-: IRequestHandler<GetCompanyItemsQuery, List<CompanyItemDto>>
+    : IRequestHandler<GetCompanyItemsQuery, PagedResult<CompanyItemDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IUserContext _userContext;
@@ -24,7 +26,7 @@ public class GetCompanyItemsQueryHandler
         this._mapper = mapper;
     }
 
-    public async Task<List<CompanyItemDto>> Handle(
+    public async Task<PagedResult<CompanyItemDto>> Handle(
         GetCompanyItemsQuery request,
         CancellationToken cancellationToken)
     {
@@ -39,6 +41,9 @@ public class GetCompanyItemsQueryHandler
 
         return await query
             .ProjectTo<CompanyItemDto>(this._mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
+            .PaginatedListAsync(
+                request.Page, 
+                request.PageSize, 
+                cancellationToken);
     }
 }

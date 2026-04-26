@@ -2,15 +2,11 @@
 using EasyShare.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyShare.Application.Features.Admin.Commands.DeleteCategory
 {
-    public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, Unit>
+    public class DeleteCategoryCommandHandler 
+        : IRequestHandler<DeleteCategoryCommand, Unit>
     {
         private readonly IApplicationDbContext _context;
 
@@ -19,7 +15,7 @@ namespace EasyShare.Application.Features.Admin.Commands.DeleteCategory
             this._context = context;
         }
 
-        public async Task Handle(
+        public async Task<Unit> Handle(
             DeleteCategoryCommand request, 
             CancellationToken cancellationToken)
         {
@@ -38,6 +34,8 @@ namespace EasyShare.Application.Features.Admin.Commands.DeleteCategory
             category.Delete();
 
             await this._context.SaveChangesAsync(cancellationToken);
+
+            return Unit.Value;
         }
     }
 }

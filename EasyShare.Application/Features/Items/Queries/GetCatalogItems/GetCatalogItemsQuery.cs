@@ -1,8 +1,10 @@
-﻿using MediatR;
+﻿using EasyShare.Application.Common.Models;
+using MediatR;
 
 namespace EasyShare.Application.Features.Items.Queries.GetCatalogItems;
 
-public record GetCatalogItemsQuery : IRequest<List<CatalogItemDto>>
+public record GetCatalogItemsQuery 
+    : IRequest<PagedResult<CatalogItemDto>>
 {
     public string? SearchTerm { get; init; }
     public string? City { get; init; }

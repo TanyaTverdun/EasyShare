@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using EasyShare.Application.Common.Exceptions;
 using EasyShare.Application.Common.Interfaces;
+using EasyShare.Application.Common.Models;
 using EasyShare.Application.Features.Items.Extensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyShare.Application.Features.Items.Queries.GetCatalogItems;
 
-public class GetCatalogItemsQueryHandler : 
-    IRequestHandler<GetCatalogItemsQuery, List<CatalogItemDto>>
+public class GetCatalogItemsQueryHandler 
+    : IRequestHandler<GetCatalogItemsQuery, PagedResult<CatalogItemDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -21,8 +23,8 @@ public class GetCatalogItemsQueryHandler :
         this._mapper = mapper;
     }
 
-    public async Task<List<CatalogItemDto>> Handle(
-        GetCatalogItemsQuery request, 
+    public async Task<PagedResult<CatalogItemDto>> Handle(
+        GetCatalogItemsQuery request,
         CancellationToken cancellationToken)
     {
         var query = _context.ItemCatalog.AsNoTracking().AsQueryable()
@@ -48,12 +50,11 @@ public class GetCatalogItemsQueryHandler :
                 request.UserStreet, 
                 request.UserBuilding);
 
-        var items = await query
-            .Skip((request.Page - 1) * request.PageSize)
-            .Take(request.PageSize)
-            .ProjectTo<CatalogItemDto>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
-
-        return items;
+        return await query
+            .ProjectTo<CatalogItemDto>(this._mapper.ConfigurationProvider)
+            .PaginatedListAsync(
+                request.Page, 
+                request.PageSize, 
+                cancellationToken);
     }
 }

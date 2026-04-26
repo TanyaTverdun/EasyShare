@@ -14,9 +14,12 @@ namespace EasyShare.Application.Features.Items.Queries.GetCatalogItems
                 .InclusiveBetween(1, 100)
                 .WithMessage("Розмір сторінки має бути від 1 до 100 товарів.");
 
-            RuleFor(x => x.UserCity)
-                .NotEmpty()
-                .WithMessage("Для сортування 'Найближчі' необхідно обов'язково вказати ваше місто.");
+            When(x => x.SortBy == CatalogSortOption.Nearest, () =>
+            {
+                RuleFor(x => x.UserCity)
+                    .NotEmpty()
+                    .WithMessage("Для сортування 'Найближчі' необхідно обов'язково вказати ваше місто.");
+            });
 
             When(x => !string.IsNullOrWhiteSpace(x.SearchTerm), () =>
             {

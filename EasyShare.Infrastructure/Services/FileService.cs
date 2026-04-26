@@ -34,4 +34,29 @@ public class FileService : IFileService
 
         return $"/images/items/{uniqueFileName}";
     }
+
+    public Task DeleteImageAsync(
+        string imageUrl, 
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(imageUrl))
+        {
+            return Task.CompletedTask;
+        }
+
+        var fileName = Path.GetFileName(imageUrl);
+
+        var filePath = Path.Combine(
+            this._environment.WebRootPath, 
+            "images", 
+            "items", 
+            fileName);
+
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+
+        return Task.CompletedTask;
+    }
 }

@@ -6,4 +6,8 @@ public interface IFileService
         Stream fileStream, 
         string fileName, 
         CancellationToken cancellationToken);
+
+    Task DeleteImageAsync(
+        string imageUrl, 
+        CancellationToken cancellationToken);
 }

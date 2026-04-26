@@ -38,14 +38,14 @@ public class UserBookingsController : ControllerBase
     [HttpGet("user-stats")]
     public async Task<IActionResult> GetMyStats()
     {
-        var stats = await this._mediator.Send(new GetMyBookingStatsQuery());
+        var stats = await this._mediator.Send(new GetUserBookingStatsQuery());
 
         return Ok(stats);
     }
 
     [HttpGet("user-bookings")]
     public async Task<IActionResult> GetUserBookings(
-        [FromQuery] GetMyBookingsQuery query)
+        [FromQuery] GetUserBookingsQuery query)
     {
         var bookings = await this._mediator.Send(query);
 
