@@ -1,4 +1,5 @@
 ﻿using EasyShare.Application.Features.Companies.Commands.UpdateProfile;
+using EasyShare.Application.Features.Companies.Queries.GetAnalytics;
 using EasyShare.Application.Features.Companies.Queries.GetBookings;
 using EasyShare.Application.Features.Companies.Queries.GetItems;
 using EasyShare.Application.Features.Companies.Queries.GetProfile;
@@ -121,6 +122,31 @@ public class CompaniesController : ControllerBase
         {
             return NotFound("Компанію не знайдено");
         }
+
+        return Ok(result);
+    }
+
+    [HttpGet("analytics/filters")]
+    public async Task<ActionResult<AnalyticsFiltersDto>> GetAnalyticsFilters(
+        CancellationToken cancellationToken)
+    {
+        var query = new GetAnalyticsFiltersQuery();
+
+        var result = await this._mediator.Send(
+            query, 
+            cancellationToken);
+
+        return Ok(result);
+    }
+
+    [HttpGet("analytics")]
+    public async Task<ActionResult<CompanyAnalyticsDto>> GetAnalytics(
+        [FromQuery] GetCompanyAnalyticsQuery query,
+        CancellationToken cancellationToken)
+    {
+        var result = await this._mediator.Send(
+            query, 
+            cancellationToken);
 
         return Ok(result);
     }

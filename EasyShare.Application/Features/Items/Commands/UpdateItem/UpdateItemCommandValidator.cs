@@ -1,5 +1,4 @@
-﻿using EasyShare.Application.Features.Companies.Commands.CreateItem;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace EasyShare.Application.Features.Items.Commands.UpdateItem;
 
