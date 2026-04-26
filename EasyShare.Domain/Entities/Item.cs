@@ -29,6 +29,54 @@ public class Item
     public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     public ICollection<ItemAttributeValue> ItemAttributeValues { get; set; } = new List<ItemAttributeValue>();
 
+    public static Item Create(
+        string name,
+        string description,
+        int companyId,
+        int typeId,
+        Location location,
+        BillingPeriod billingPeriod,
+        decimal price,
+        int stockQuantity,
+        int? maxRentDays,
+        decimal? depositAmount,
+        int? prepaymentPercent,
+        string? imageUrl,
+        Dictionary<int, string>? attributes = null)
+    {
+        var item = new Item
+        {
+            Name = name,
+            Description = description,
+            CompanyId = companyId,
+            TypeId = typeId,
+            Location = location,
+            BillingPeriod = billingPeriod,
+            Price = price,
+            StockQuantity = stockQuantity,
+            MaxRentDays = maxRentDays,
+            DepositAmount = depositAmount,
+            PrepaymentPercent = prepaymentPercent,
+            ImageUrl = imageUrl,
+            IsActive = true,
+            CreatedAt = DateTimeOffset.UtcNow
+        };
+
+        if (attributes != null && attributes.Any())
+        {
+            foreach (var attr in attributes)
+            {
+                item.ItemAttributeValues.Add(new ItemAttributeValue
+                {
+                    AttributeId = attr.Key,
+                    Value = attr.Value
+                });
+            }
+        }
+
+        return item;
+    }
+
     public void Deactivate()
     {
         IsActive = false;

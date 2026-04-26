@@ -1,4 +1,5 @@
 ﻿using EasyShare.Application.Features.Companies.Commands.ActivateItem;
+using EasyShare.Application.Features.Companies.Commands.CreateItem;
 using EasyShare.Application.Features.Companies.Commands.DeactivateItem;
 using EasyShare.Application.Features.Companies.Commands.UpdateProfile;
 using EasyShare.Application.Features.Companies.Queries.GetBookings;
@@ -93,5 +94,17 @@ public class CompaniesController : ControllerBase
             cancellationToken);
 
         return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateItem(
+        [FromForm] CreateItemRequest request,
+        CancellationToken cancellationToken)
+    {
+        var command = request.ToCommand();
+
+        var itemId = await this._mediator.Send(command, cancellationToken);
+
+        return Created("", new { Id = itemId });
     }
 }

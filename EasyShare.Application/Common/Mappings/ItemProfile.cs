@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyShare.Application.Features.Companies.Commands.CreateItem;
 using EasyShare.Application.Features.Companies.Queries.GetItems;
 using EasyShare.Application.Features.Items.Queries.GetItemById;
 using EasyShare.Domain.Entities;

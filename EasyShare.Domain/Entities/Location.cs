@@ -10,4 +10,17 @@ public class Location
     public ICollection<User> Users { get; set; } = new List<User>();
     public ICollection<Company> Companies { get; set; } = new List<Company>();
     public ICollection<Item> Items { get; set; } = new List<Item>();
+
+    public static Location Create(
+        string city, 
+        string street, 
+        int building)
+    {
+        return new Location
+        {
+            City = city,
+            Street = street,
+            Building = building
+        };
+    }
 }
